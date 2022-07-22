@@ -87,6 +87,7 @@
     <rosparam param="source_list">[franka_state_controller/joint_states, franka_gripper/joint_states] </rosparam>
     <param name="rate" value="30"/>
   </node>
+  <node name="joint_state_desired_publisher" pkg="topic_tools" type="relay" args="joint_states joint_states_desired" />
 
   <!-- Moveit -->
   <include file="$(find panda_moveit_config)/launch/planning_context.launch">
