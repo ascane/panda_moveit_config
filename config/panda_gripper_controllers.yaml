@@ -1,7 +1,7 @@
  controller_list:
-  - name: joint_position_example_controller
-    action_ns: joint_position_example_controller
-    type: franka_example_controllers/JointpositionExampleController
+  - name: position_joint_trajectory_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
     default: true
     joints:
       - panda_joint1
@@ -13,7 +13,7 @@
       - panda_joint7
   - name: franka_gripper
     action_ns: gripper_action
-    type: franka_gazebo/FrankaGripperSim
+    type: GripperCommand
     default: true
     joints:
       - panda_finger_joint1
