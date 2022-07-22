@@ -1,5 +1,8 @@
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find franka_description)/robots/panda_arm_hand.urdf.xacro" />
+    <arg name="load_gripper" default="true" />
+
+    <param name="robot_description" command="$(find xacro)/xacro $(find franka_description)/robots/panda_arm.urdf.xacro hand:=$(arg load_gripper) gazebo:=True" />
+    <!-- <param name="robot_description" command="$(find xacro)/xacro $(find franka_description)/robots/panda_arm_hand.urdf.xacro" />  -->
 
     <!-- GAZEBO arguments -->
     <arg name="paused" default="false" />
@@ -7,7 +10,7 @@
     <arg name="gui" default="true" />
     <arg name="headless" default="false" />
     <arg name="debug" default="false" />
-    <arg name="load_gripper" default="true" />
+    <!-- <arg name="load_gripper" default="true" /> -->
 
     <!--launch GAZEBO with own world configuration -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -22,7 +25,7 @@
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model panda" />
 
     <!-- Load joint controller configurations from YAML file to parameter server -->
-    <rosparam file="$(find panda_simulation)/config/panda_control.yaml" command="load" />
+    <rosparam file="$(find panda_moveit_config)/config/panda_control.yaml" command="load" />
 
 
     <!-- load the controllers -->
