@@ -1,0 +1,21 @@
+<launch>
+  <arg name="world_name" default="shapenet_empty_camera_connected.world" />
+
+  <include file="$(find panda_moveit_config)/launch/panda_gazebo_moveit.launch">
+    <arg name="world" value="$(arg world_name)" />
+  </include>
+  <!--
+  In this tutorial we wait much longer for the robot transforms than we usually would,
+  because the user's machine might be quite slow.
+  -->
+  <param name="robot_description_planning/shape_transform_cache_lookup_wait_time" value="0.5" />
+
+  <!-- If needed, broadcast static tf for robot root -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="to_panda" args="0 0 0 0 0 0  world panda_link0" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="to_camera_gz" args="2.0 0 1.25 0 0.53 3.14 world camera_base" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="to_camera_rot" args="0 0. 0  -1.57 0.0 0.515 camera_base camera_link" />
+
+  <!-- set use_sim_time flag -->
+  <param name="/use_sim_time" value="true" />
+
+</launch>
