@@ -30,4 +30,6 @@
 
   <!-- <node name="spawn_model_belt" pkg="gazebo_ros" type="spawn_model" args="-file $(find panda_moveit_config)/urdf/conveyor.urdf -urdf -model conveyor_belt -x 0.35 -z -0.74" respawn="false" output="screen" /> -->
   <node name="blocks_spawner" pkg="panda_moveit_config" type="blocks_spawner" output="screen" />
+  <!-- the cylinder poses publisher node -->
+  <!-- <node name="blocks_poses_publisher" pkg="panda_moveit_config" type="blocks_poses_publisher" output="screen" /> -->
 </launch>

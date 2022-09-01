@@ -14,6 +14,7 @@
   #include <string>
   #include <urdf/model.h>
   #include <gazebo_msgs/SpawnModel.h>
+  #include <gazebo_msgs/DeleteModel.h>
   #include <gazebo_msgs/ApplyBodyWrench.h>
   #include <std_msgs/Int8MultiArray.h>
   #include <gazebo_msgs/SetModelState.h>
@@ -33,6 +34,10 @@
       ros::ServiceClient spawnClient = nh.serviceClient<gazebo_msgs::SpawnModel>("/gazebo/spawn_urdf_model");
       gazebo_msgs::SpawnModel::Request spawn_model_req;
       gazebo_msgs::SpawnModel::Response spawn_model_resp;
+
+      ros::ServiceClient deleteModelClient = nh.serviceClient<gazebo_msgs::DeleteModel>("/gazebo/delete_model");
+      gazebo_msgs::DeleteModel::Request delete_model_req;
+      gazebo_msgs::DeleteModel::Response delete_model_resp;
 
       ros::ServiceClient wrenchClient = nh.serviceClient<gazebo_msgs::ApplyBodyWrench>("/gazebo/apply_body_wrench");
       gazebo_msgs::ApplyBodyWrench::Request apply_wrench_req;
@@ -91,7 +96,7 @@
       xmlStr = strStream.str();
      // ROS_INFO_STREAM("urdf: \n" <<xmlStr);
       // prepare the pawn model service message
-      spawn_model_req.initial_pose.position.y = 2;
+      spawn_model_req.initial_pose.position.y = 1.2;
       spawn_model_req.initial_pose.position.z = 0.5;
       spawn_model_req.initial_pose.orientation.x=0.0;
       spawn_model_req.initial_pose.orientation.y=0.0;
@@ -123,7 +128,9 @@
           spawn_model_req.robot_namespace = model_name;
           spawn_model_req.model_xml = xmlStr;
 
+
           bool call_service = spawnClient.call(spawn_model_req, spawn_model_resp);
+
           if (call_service) {
               if (spawn_model_resp.success) {
                   ROS_INFO_STREAM(model_name << " has been spawned");
@@ -136,6 +143,11 @@
               ROS_INFO("fail in first call");
               ROS_ERROR("fail to connect with gazebo server");
               return 0;
+          }
+
+          if (i > 0) {
+              delete_model_req.model_name = "blocks_" + intToString(i-1);
+              bool delete_call_service = deleteModelClient.call(delete_model_req, delete_model_resp);
           }
 
           // prepare apply body wrench service message
