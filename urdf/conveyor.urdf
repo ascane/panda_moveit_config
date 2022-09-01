@@ -22,7 +22,7 @@
 		<visual>
 			<origin xyz="0 0 0" rpy="0 0 0" />
 			<geometry>
-				<mesh filename="package://demo_world/meshes/conveyor_belt.stl" />
+				<mesh filename="package://panda_moveit_config/meshes/conveyor_belt.stl" />
 			</geometry>
 			<material name="white">
 				<color rgba="1 1 1 1" />
@@ -31,7 +31,7 @@
 		<collision>
 			<origin xyz="0.0 0.0 0" rpy="1.570796327 0.0 1.570796327"/>
 			<geometry>
-				<mesh filename="package://demo_world/meshes/conveyor_simple.stl" />
+				<mesh filename="package://panda_moveit_config/meshes/conveyor_simple.stl" />
 			</geometry>
 		</collision>
 	</link>

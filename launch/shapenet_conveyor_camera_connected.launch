@@ -26,6 +26,8 @@
   <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen" args="$(arg command_arg3) $(arg world_name)"/>
   <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
 
-  <node name="cube_spawner" pkg="panda_moveit_config" type="src/cube_spawner.py" output="screen"/>
+  <node name="spawn_model_belt" pkg="gazebo_ros" type="spawn_model" args="-file $(find panda_moveit_config)/urdf/conveyor.urdf -urdf -model conveyor_belt" respawn="false" output="screen" />
+
+  <!-- <node name="cube_spawner" pkg="panda_moveit_config" type="src/cube_spawner.py" output="screen"/> -->
 
 </launch>
