@@ -1,5 +1,7 @@
 <launch>
   <arg name="world_name" default="shapenet_conveyor_camera_connected.world" />
+  <param name="box_path" type="str" value="$(find panda_moveit_config)/urdf/box.urdf"/>
+  <param name="cylinder_path" type="str" value="$(find panda_moveit_config)/urdf/red_cylinder.urdf"/>
 
   <include file="$(find panda_moveit_config)/launch/panda_gazebo_moveit.launch">
     <arg name="world" value="$(arg world_name)" />
@@ -17,5 +19,7 @@
 
   <!-- set use_sim_time flag -->
   <param name="/use_sim_time" value="true" />
+  <node name="blocks_spawner" pkg="panda_moveit_config" type="blocks_spawner" output="screen" />
+  <node name="cylinder_spawner" pkg="panda_moveit_config" type="cylinder_spawner" output="screen" />
 
 </launch>

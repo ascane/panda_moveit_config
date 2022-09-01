@@ -27,7 +27,7 @@
   }
 
   int main(int argc, char **argv) {
-      ros::init(argc, argv, "blocks_spawner");
+      ros::init(argc, argv, "cylinder_spawner");
       ros::NodeHandle nh;
       srand(time(0));
       //service client for service /gazebo/spawn_urdf_model
@@ -80,7 +80,7 @@
       //get file path of blocks from parameter service
       std::string box_path;
       bool get_path;
-      get_path = nh.getParam("/box_path", box_path);
+      get_path = nh.getParam("/cylinder_path", box_path);
 
       if (!(get_path)){
           return 0;}
@@ -96,7 +96,7 @@
       xmlStr = strStream.str();
      // ROS_INFO_STREAM("urdf: \n" <<xmlStr);
       // prepare the pawn model service message
-      spawn_model_req.initial_pose.position.y = 1.05;
+      spawn_model_req.initial_pose.position.y = 1.5;
       spawn_model_req.initial_pose.position.z = 0.5;
       spawn_model_req.initial_pose.orientation.x=0.0;
       spawn_model_req.initial_pose.orientation.y=0.0;
@@ -106,7 +106,7 @@
 
       ros::Time time_temp(0, 0);
       ros::Duration duration_temp(0, 1000000);
-      apply_wrench_req.wrench.force.y = -5.1;
+      apply_wrench_req.wrench.force.y = -1;
       apply_wrench_req.wrench.force.x = 0.0;
       apply_wrench_req.wrench.force.z = 0.0;
       apply_wrench_req.start_time = time_temp;
@@ -123,7 +123,7 @@
           ROS_INFO_STREAM("y position of new box: "
           << spawn_model_req.initial_pose.position.x);
 
-          model_name = "blocks_" + index;  // initialize model_name
+          model_name = "red_cylinder_" + index;  // initialize model_name
           spawn_model_req.model_name = model_name;
           spawn_model_req.robot_namespace = model_name;
           spawn_model_req.model_xml = xmlStr;
@@ -146,7 +146,7 @@
           }
 
           if (i > 0) {
-              delete_model_req.model_name = "blocks_" + intToString(i-1);
+              delete_model_req.model_name = "red_cylinder_" + intToString(i-1);
               bool delete_call_service = deleteModelClient.call(delete_model_req, delete_model_resp);
           }
 

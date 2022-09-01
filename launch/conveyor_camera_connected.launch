@@ -5,6 +5,7 @@
   because the user's machine might be quite slow.
   -->
   <param name="box_path" type="str" value="$(find panda_moveit_config)/urdf/box.urdf"/>
+  <param name="cylinder_path" type="str" value="$(find panda_moveit_config)/urdf/red_cylinder.urdf"/>
 
   <param name="robot_description_planning/shape_transform_cache_lookup_wait_time" value="0.5" />
 
@@ -30,6 +31,7 @@
 
   <!-- <node name="spawn_model_belt" pkg="gazebo_ros" type="spawn_model" args="-file $(find panda_moveit_config)/urdf/conveyor.urdf -urdf -model conveyor_belt -x 0.35 -z -0.74" respawn="false" output="screen" /> -->
   <node name="blocks_spawner" pkg="panda_moveit_config" type="blocks_spawner" output="screen" />
+  <node name="cylinder_spawner" pkg="panda_moveit_config" type="cylinder_spawner" output="screen" />
   <!-- the cylinder poses publisher node -->
   <!-- <node name="blocks_poses_publisher" pkg="panda_moveit_config" type="blocks_poses_publisher" output="screen" /> -->
 </launch>
