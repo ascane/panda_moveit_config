@@ -4,6 +4,8 @@
   In this tutorial we wait much longer for the robot transforms than we usually would,
   because the user's machine might be quite slow.
   -->
+  <param name="box_path" type="str" value="$(find panda_moveit_config)/urdf/box.urdf"/>
+
   <param name="robot_description_planning/shape_transform_cache_lookup_wait_time" value="0.5" />
 
   <!-- If needed, broadcast static tf for robot root -->
@@ -13,7 +15,7 @@
 
   <arg name="use_sim_time" default="true"/>
   <arg name="verbose" default="true"/>
-  <arg name="world_name" default="shapenet_empty_camera_connected.world"/>
+  <arg name="world_name" default="shapenet_conveyor_camera_connected.world"/>
 
   <!-- set use_sim_time flag -->
   <group if="$(arg use_sim_time)">
@@ -26,4 +28,8 @@
   <node name="gazebo" pkg="gazebo_ros" type="gzserver" respawn="false" output="screen" args="$(arg command_arg3) $(arg world_name)"/>
   <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
 
+  <!-- <node name="spawn_model_belt" pkg="gazebo_ros" type="spawn_model" args="-file $(find panda_moveit_config)/urdf/conveyor.urdf -urdf -model conveyor_belt -x 0.35 -z -0.74" respawn="false" output="screen" /> -->
+  <node name="blocks_spawner" pkg="panda_moveit_config" type="blocks_spawner" output="screen" />
+  <!-- the cylinder poses publisher node -->
+  <!-- <node name="blocks_poses_publisher" pkg="panda_moveit_config" type="blocks_poses_publisher" output="screen" /> -->
 </launch>

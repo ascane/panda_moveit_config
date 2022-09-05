@@ -156,6 +156,7 @@ panda_arm:
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
     - TrajOptDefault
+  projection_evaluator: joints(panda_joint1,panda_joint2)
 panda_arm_hand:
   planner_configs:
     - SBLkConfigDefault
