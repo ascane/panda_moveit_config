@@ -1,8 +1,10 @@
 <launch>
   <arg name="world_name" default="shapenet_empty_camera_connected.world" />
+  <arg name="pipeline" default="ompl" />
 
   <include file="$(find panda_moveit_config)/launch/panda_gazebo_moveit.launch">
     <arg name="world" value="$(arg world_name)" />
+    <arg name="pipeline" value="$(arg pipeline)" />
   </include>
   <!--
   In this tutorial we wait much longer for the robot transforms than we usually would,
