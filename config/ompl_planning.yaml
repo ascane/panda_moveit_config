@@ -13,10 +13,15 @@ planner_configs:
     min_valid_path_fraction: 0.5  # Accept partially valid moves above fraction. default: 0.5
   BITstarkConfigDefault:
     type: geometric::BITstar
-    range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
-    border_fraction: 0.9  # Fraction of time focused on boarder default: 0.9
-    failed_expansion_score_factor: 0.5  # When extending motion fails, scale score by factor. default: 0.5
-    min_valid_path_fraction: 0.5  # Accept partially valid moves above fraction. default: 0.5
+    # initial_inflation_factor: 1000000.0
+    rewire_factor: 2.0
+    samples_per_batch: 64
+    use_k_nearest: 1
+    use_graph_pruning: 0
+    prune_threshold_as_fractional_cost_change: 0.05
+    use_just_in_time_sampling: 0
+    drop_unconnected_samples_on_prune: 0
+    stop_on_each_solution_improvement: 0
   BKPIECEkConfigDefault:
     type: geometric::BKPIECE
     range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
@@ -131,6 +136,7 @@ planner_configs:
 
 panda_arm:
   planner_configs:
+    - BITstarkConfigDefault
     - SBLkConfigDefault
     - ESTkConfigDefault
     - LBKPIECEkConfigDefault
@@ -149,7 +155,6 @@ panda_arm:
     - BiTRRTkConfigDefault
     - LBTRRTkConfigDefault
     - BiESTkConfigDefault
-    - BITstarkConfigDefault
     - ProjESTkConfigDefault
     - LazyPRMkConfigDefault
     - LazyPRMstarkConfigDefault
@@ -159,11 +164,11 @@ panda_arm:
   projection_evaluator: joints(panda_joint1,panda_joint2)
 panda_arm_hand:
   planner_configs:
+    - BITstarkConfigDefault
     - SBLkConfigDefault
     - ESTkConfigDefault
     - LBKPIECEkConfigDefault
     - BKPIECEkConfigDefault
-    - BITstarkConfigDefault
     - KPIECEkConfigDefault
     - RRTkConfigDefault
     - RRTConnectkConfigDefault
@@ -210,3 +215,4 @@ hand:
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
     - TrajOptDefault
+    - BITstarkConfigDefault
