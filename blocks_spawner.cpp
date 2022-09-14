@@ -96,7 +96,7 @@
       xmlStr = strStream.str();
      // ROS_INFO_STREAM("urdf: \n" <<xmlStr);
       // prepare the pawn model service message
-      spawn_model_req.initial_pose.position.y = 1.05;
+      spawn_model_req.initial_pose.position.y = 0.9,
       spawn_model_req.initial_pose.position.z = 0.5;
       spawn_model_req.initial_pose.orientation.x=0.0;
       spawn_model_req.initial_pose.orientation.y=0.0;
@@ -115,72 +115,33 @@
 
       int i =0;
 
-      while (ros::ok()){
-          std::string index = intToString(i);
-          std::string model_name;
+      std::string index = intToString(i);
+      std::string model_name;
 
-          spawn_model_req.initial_pose.position.x = (float)rand()/(float)(RAND_MAX) * 0.4 + 0.5;  // random between -0.4 to 0.4
-          ROS_INFO_STREAM("y position of new box: "
-          << spawn_model_req.initial_pose.position.x);
+      spawn_model_req.initial_pose.position.x = (float)rand()/(float)(RAND_MAX) * 0.4 + 0.5;  // random between -0.4 to 0.4
+      ROS_INFO_STREAM("y position of new box: "
+      << spawn_model_req.initial_pose.position.x);
 
-          model_name = "blocks_" + index;  // initialize model_name
-          spawn_model_req.model_name = model_name;
-          spawn_model_req.robot_namespace = model_name;
-          spawn_model_req.model_xml = xmlStr;
+      model_name = "blocks_" + index;  // initialize model_name
+      spawn_model_req.model_name = model_name;
+      spawn_model_req.robot_namespace = model_name;
+      spawn_model_req.model_xml = xmlStr;
 
 
-          bool call_service = spawnClient.call(spawn_model_req, spawn_model_resp);
+      bool call_service = spawnClient.call(spawn_model_req, spawn_model_resp);
 
-          if (call_service) {
-              if (spawn_model_resp.success) {
-                  ROS_INFO_STREAM(model_name << " has been spawned");
-              }
-              else {
-                  ROS_INFO_STREAM(model_name << " spawn failed");
-              }
+      if (call_service) {
+          if (spawn_model_resp.success) {
+              ROS_INFO_STREAM(model_name << " has been spawned");
           }
           else {
-              ROS_INFO("fail in first call");
-              ROS_ERROR("fail to connect with gazebo server");
-              return 0;
+              ROS_INFO_STREAM(model_name << " spawn failed");
           }
-
-          if (i > 0) {
-              delete_model_req.model_name = "blocks_" + intToString(i-1);
-              bool delete_call_service = deleteModelClient.call(delete_model_req, delete_model_resp);
-          }
-
-          // prepare apply body wrench service message
-          apply_wrench_req.body_name = model_name + "::base_link";
-
-          // call apply body wrench service
-          call_service = wrenchClient.call(apply_wrench_req, apply_wrench_resp);
-          if (call_service) {
-              if (apply_wrench_resp.success) {
-                  ROS_INFO_STREAM(model_name << " speed initialized");
-              }
-              else {
-                  ROS_INFO_STREAM(model_name << " fail to initialize speed");
-              }
-          }
-          else {
-              ROS_ERROR("fail to connect with gazebo server");
-              return 0;
-          }
-
-          // publish current cylinder blocks status, all cylinder blocks will be published
-          // no matter if it's successfully spawned, or successfully initialized in speed
-          current_blocks_publisher.publish(current_blocks_msg);
-
-          // loop end, increase index by 1, add blank line
-          i = i + 1;
-          ROS_INFO_STREAM("");
-
-          ros::spinOnce();
-          ros::Duration(86400.0).sleep();  // frequency control, spawn one cylinder in each loop
-          // delay time decides density of the cylinders
-
-
+      }
+      else {
+          ROS_INFO("fail in first call");
+          ROS_ERROR("fail to connect with gazebo server");
+          return 0;
       }
       return 0;
   }
