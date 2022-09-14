@@ -106,7 +106,7 @@
 
       ros::Time time_temp(0, 0);
       ros::Duration duration_temp(0, 1000000);
-      apply_wrench_req.wrench.force.y = -1;
+      apply_wrench_req.wrench.force.y = -1.;
       apply_wrench_req.wrench.force.x = 0.0;
       apply_wrench_req.wrench.force.z = 0.0;
       apply_wrench_req.start_time = time_temp;
@@ -114,7 +114,6 @@
       apply_wrench_req.reference_frame = "world";
 
       int i =0;
-
       std::string index = intToString(i);
       std::string model_name;
 
@@ -143,5 +142,40 @@
           ROS_ERROR("fail to connect with gazebo server");
           return 0;
       }
+
+      // while (ros::ok()){
+      //
+      //
+      //     // prepare apply body wrench service message
+      //     apply_wrench_req.body_name = model_name + "::base_link";
+      //
+      //     // call apply body wrench service
+      //     call_service = wrenchClient.call(apply_wrench_req, apply_wrench_resp);
+      //     if (call_service) {
+      //         if (apply_wrench_resp.success) {
+      //             ROS_INFO_STREAM(model_name << " speed initialized");
+      //         }
+      //         else {
+      //             ROS_INFO_STREAM(model_name << " fail to initialize speed");
+      //         }
+      //     }
+      //     else {
+      //         ROS_ERROR("fail to connect with gazebo server");
+      //         return 0;
+      //     }
+      //
+      //     // publish current cylinder blocks status, all cylinder blocks will be published
+      //     // no matter if it's successfully spawned, or successfully initialized in speed
+      //     // current_blocks_publisher.publish(current_blocks_msg);
+      //
+      //     // loop end, increase index by 1, add blank line
+      //     // ROS_INFO_STREAM("");
+      //
+      //     ros::spinOnce();
+      //     // ros::Duration(20.0).sleep();  // frequency control, spawn one cylinder in each loop
+      //     // delay time decides density of the cylinders
+      //
+      //
+      // }
       return 0;
   }

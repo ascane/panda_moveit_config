@@ -35,9 +35,6 @@
       gazebo_msgs::SpawnModel::Request spawn_model_req;
       gazebo_msgs::SpawnModel::Response spawn_model_resp;
 
-      ros::ServiceClient deleteModelClient = nh.serviceClient<gazebo_msgs::DeleteModel>("/gazebo/delete_model");
-      gazebo_msgs::DeleteModel::Request delete_model_req;
-      gazebo_msgs::DeleteModel::Response delete_model_resp;
 
       ros::ServiceClient wrenchClient = nh.serviceClient<gazebo_msgs::ApplyBodyWrench>("/gazebo/apply_body_wrench");
       gazebo_msgs::ApplyBodyWrench::Request apply_wrench_req;
@@ -96,7 +93,7 @@
       xmlStr = strStream.str();
      // ROS_INFO_STREAM("urdf: \n" <<xmlStr);
       // prepare the pawn model service message
-      spawn_model_req.initial_pose.position.y = 0.9,
+      spawn_model_req.initial_pose.position.y = 1.05;
       spawn_model_req.initial_pose.position.z = 0.5;
       spawn_model_req.initial_pose.orientation.x=0.0;
       spawn_model_req.initial_pose.orientation.y=0.0;
@@ -106,7 +103,7 @@
 
       ros::Time time_temp(0, 0);
       ros::Duration duration_temp(0, 1000000);
-      apply_wrench_req.wrench.force.y = -5.1;
+      apply_wrench_req.wrench.force.y = -10.1;
       apply_wrench_req.wrench.force.x = 0.0;
       apply_wrench_req.wrench.force.z = 0.0;
       apply_wrench_req.start_time = time_temp;
@@ -114,7 +111,6 @@
       apply_wrench_req.reference_frame = "world";
 
       int i =0;
-
       std::string index = intToString(i);
       std::string model_name;
 
@@ -143,5 +139,40 @@
           ROS_ERROR("fail to connect with gazebo server");
           return 0;
       }
+
+
+      // while (ros::ok()){
+      //
+      //     // prepare apply body wrench service message
+      //     apply_wrench_req.body_name = model_name + "::base_link";
+      //
+      //     // call apply body wrench service
+      //     call_service = wrenchClient.call(apply_wrench_req, apply_wrench_resp);
+      //     if (call_service) {
+      //         if (apply_wrench_resp.success) {
+      //             ROS_INFO_STREAM(model_name << " speed initialized");
+      //         }
+      //         else {
+      //             ROS_INFO_STREAM(model_name << " fail to initialize speed");
+      //         }
+      //     }
+      //     else {
+      //         ROS_ERROR("fail to connect with gazebo server");
+      //         return 0;
+      //     }
+      //
+      //     // publish current cylinder blocks status, all cylinder blocks will be published
+      //     // no matter if it's successfully spawned, or successfully initialized in speed
+      //     // current_blocks_publisher.publish(current_blocks_msg);
+      //
+      //     // loop end, increase index by 1, add blank line
+      //     // ROS_INFO_STREAM("");
+      //
+      //     ros::spinOnce();
+      //     // ros::Duration(20.0).sleep();  // frequency control, spawn one cylinder in each loop
+      //     // delay time decides density of the cylinders
+      //
+      //
+      // }
       return 0;
   }
