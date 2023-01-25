@@ -21,9 +21,11 @@
               <ixx>3.8185</ixx>
               <ixy>0</ixy>
               <ixz>0</ixz>
-              <iyy>1781.5</iyy>
+              <!-- <iyy>1781.5</iyy> -->
+              <iyy>1000.5</iyy>
               <iyz>0</iyz>
-              <izz>1784.72</izz>
+              <!-- <izz>1784.72</izz> -->
+              <izz>1000.72</izz>
             </inertia>
             <mass>100</mass>
           </inertial>
